@@ -1,0 +1,11 @@
+Completed.
+create a RGB colour detector.
+generate a bunch of colour swatches to identify what colours represent the road.
+
+To do List
+Add More documentation.
+create algorithm to identify errors. (Ideas being check two surrounding pixels (up/down/left/right) if two or more are road, then assume it is supposed to be road.
+identify any bugs.
+make program more efficient.
+Create GUI
+determine whether you want them to upload a screenshot of the map, or a web based GUI for it locked on zoom, but able to pan, with a search function for there suburb
