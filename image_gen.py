@@ -1,12 +1,8 @@
-import numpy as np
-import scipy.misc as smp
-
-# Create a 1024x1024x3 array of 8 bit unsigned integers
-data = np.zeros( (1024,1024,3), dtype=np.uint8 )
-
-for k in range(256):
-    for i in range(256):# Makes the middle pixel red
-        data[i,k] = [0,0,255]       # Makes the next pixel blue
-
-img = smp.toimage( data )       # Create a PIL image
-img.show()  
+#API KEY  #AIzaSyAnxHAQMnR-fqZAIgAyypVwPT1-r0u7aI8
+import requests
+def gen_map(long,lat,zoom):
+    g = open('static1.png','wb')
+    g.write(requests.get(
+        'https://maps.googleapis.com/maps/api/staticmap?center=' + str(long)+',' + str(lat)+ ' &zoom=' + str(zoom)+'&size=530x640&scale=1&style=visibility:off&style=feature:road|element:geometry|color:99ff30|visibility:on&sensor=false').content)
+    g.close()
+gen_map(-37.784002,145.219566,16)
