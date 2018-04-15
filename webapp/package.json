@@ -5,7 +5,9 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "delay": "^2.0.0",
     "express": "latest",
+    "python-shell": "^0.5.0",
     "socket.io": "^2.0.4"
   }
 }

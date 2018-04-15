@@ -48,7 +48,7 @@
     var marker;
 		var lat = 0;
 		var long = 0;
-    var myLatlng = new google.maps.LatLng(-37.917174,145.227417);
+    var myLatlng = new google.maps.LatLng(-37.910524,145.136218);
     var geocoder = new google.maps.Geocoder();
     var infowindow = new google.maps.InfoWindow();
     function initialize(){
@@ -91,7 +91,7 @@
     $('#latitude').val(marker.getPosition().lat());
     $('#longitude').val(marker.getPosition().lng());
 		lat = marker.getPosition().lat();
-		long = marker.getPosition().long();
+		long = marker.getPosition().lng();
 
     console.log([marker.getPosition().lat(),marker.getPosition().lng()]);
     infowindow.setContent(results[0].formatted_address);
@@ -104,21 +104,24 @@
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 		function buttonclick(){
-			alert("Latitude: "+ lat + "Longitude: "+  long);
+
+				window.location.href='/load'
 			}
 
 
 			$(function(){
-            var iosocket = io.connect();
-            iosocket.on('connect', function () {
-                   alert("Connected")
-
-       });
-			 $('#confirm').click(function() {
-                alert(lat,long)
-                iosocket.send([lat,long]);
-
-       });
+          var iosocket = io.connect();
+            			iosocket.on('connect', function () {
+                  console.log("connected");
+       					});
+						//
+						iosocket.on('message', function(message) {
+                   console.log(message)
+            });
+						//
+			 			$('#confirm').click(function() {
+                	iosocket.send([lat,long]);
+									});
    });
 		</script>
 
@@ -131,9 +134,10 @@
     <input type="text" id="longitude" placeholder="Longitude"/>
   </p>
 	<!-- Colored raised button -->
-	<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id = "confirm" onclick="buttonclick()">
+	<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id = "confirm" onclick="myVar = setTimeout(buttonclick, 1500)">
 		Confirm center
 	</button>
+
 </div>
   </div>
 </body>
