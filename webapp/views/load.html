@@ -10,11 +10,39 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 <script src="script.js"></script>
 
+
+
+
+
+
 <!-- Material Design Lite -->
 <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <!-- Material Design icon font -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+      $(function(){
+          var iosocket = io.connect();
+          iosocket.on('connect', function () {
+                 alert('connected')
+                 iosocket.send("Area");
+          iosocket.on('message', function(message) {
+                 alert(message);
+                 window.location.href='/results'
+
+
+
+          });
+     });
+ });
+</script>
+
+
+
+
 
 
 
@@ -31,39 +59,51 @@
 </nav>
 </div>
 <br/>
-<script>
-function buttonclick1(){
 
-    window.location.href='/map'
-  }
-</script>
-
-<script>
-function buttonclick2(){
-
-    window.location.href='/contact'
-  }
-
-</script>
 
 
 <div class="jumbotron"> <p>
 
 
-<center><img src="http://127.0.0.1:8887/static1.png" height="398" width="480" /></center>
-</p>
+<!DOCTYPE html>
+<html>
+<head>
 <center>
-  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id = "confirm2"  onclick="buttonclick2()"> <!--change linkn to loading page-->
-    Confirm Map
-  </button>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-right: 16px solid green;
+  border-bottom: 16px solid red;
+  border-left: 16px solid pink;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
 
-  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id = "confirm1" onclick="buttonclick1()">
-		Reselect Map
-	</button>
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body style="background-color:black;text-align:center">
 
+<h2>Generating the area of the selected map</h2>
+
+<div class="loader"></div>
 </center>
 
+</body>
+</html>
 </div>
 
 </div>
