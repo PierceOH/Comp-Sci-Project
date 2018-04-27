@@ -48,30 +48,83 @@
     var marker;
 		var latt = -37.910524;
 		var long = 145.136218;
+
+		//initialising corner long/lat
+		var c1Lng = long + 0.005675000000024966
+		var c1Lat = latt + 0.00446099999999916
+
+		var c2Lng = long + 0.005675000000024966
+		var c2Lat = latt - 0.00446099999999916
+		var c3Lng = long - 0.005675000000024966
+		var c3Lat = latt + 0.00446099999999916
+		var c4Lng = long - 0.005675000000024966
+		var c4Lat = latt - 0.00446099999999916
+
+
+
+
     var myLatlng = new google.maps.LatLng(-37.910524,145.136218);
     var geocoder = new google.maps.Geocoder();
     var infowindow = new google.maps.InfoWindow();
     function initialize(){
     var mapOptions = {
-    zoom: 18,
+    zoom: 14,
     center: myLatlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
     map = new google.maps.Map(document.getElementById("myMap"), mapOptions);
 		var L1Coord = [
-				 {lat: latt, lng:long},
-				 {lat: latt+.005, lng: long+ 0.005}
+				 {lat: latt + 0.00446099999999916, lng:long + 0.005675000000024966},
+				 {lat: latt - 0.00446099999999916, lng: long + 0.005675000000024966}
 			 ];
 			 var L1 = new google.maps.Polyline({
 				 path: L1Coord,
 				 geodesic: true,
 				 strokeColor: '#FF0000',
 				 strokeOpacity: 1.0,
-				 strokeWeight: 2
+				 strokeWeight: 4
 			 });
 			 L1.setMap(map);
-
+			 //
+			 var L2Coord = [
+						{lat: latt + 0.00446099999999916, lng:long + 0.005675000000024966},
+						{lat: latt + 0.00446099999999916, lng:long - 0.005675000000024966}
+					];
+					var L2 = new google.maps.Polyline({
+						path: L2Coord,
+						geodesic: true,
+						strokeColor: '#FF0000',
+						strokeOpacity: 1.0,
+						strokeWeight: 4
+					});
+					L2.setMap(map);
+					//
+					var L3Coord = [
+							 {lat: latt - 0.00446099999999916, lng:long + 0.005675000000024966},
+							 {lat: latt - 0.00446099999999916, lng:long - 0.005675000000024966}
+						 ];
+						 var L3 = new google.maps.Polyline({
+							 path: L3Coord,
+							 geodesic: true,
+							 strokeColor: '#FF0000',
+							 strokeOpacity: 1.0,
+							 strokeWeight: 4
+						 });
+						 L3.setMap(map);
+						 //
+						 var L4Coord = [
+									{lat: latt + 0.00446099999999916, lng:long - 0.005675000000024966},
+									{lat: latt - 0.00446099999999916, lng:long - 0.005675000000024966}
+								];
+								var L4 = new google.maps.Polyline({
+									path: L4Coord,
+									geodesic: true,
+									strokeColor: '#FF0000',
+									strokeOpacity: 1.0,
+									strokeWeight: 4
+								});
+								L4.setMap(map);
 
 
     marker = new google.maps.Marker({
@@ -108,22 +161,63 @@
     $('#longitude').val(marker.getPosition().lng());
 		lat = marker.getPosition().lat();
 		long = marker.getPosition().lng();
+		latt = marker.getPosition().lat();
 
     console.log([marker.getPosition().lat(),marker.getPosition().lng()]);
     infowindow.setContent(results[0].formatted_address);
     infowindow.open(map, marker);
-		L1Coord = [
-				 {lat: latt, lng:long},
-				 {lat: latt, lng: long+ 0.005675000000024966}
+		console.log(lat)
+		 L1Coord = [
+				 {lat: latt + 0.00446099999999916, lng:long + 0.005675000000024966},
+				 {lat: latt - 0.00446099999999916, lng: long + 0.005675000000024966}
 			 ];
 			  L1 = new google.maps.Polyline({
 				 path: L1Coord,
 				 geodesic: true,
 				 strokeColor: '#FF0000',
 				 strokeOpacity: 1.0,
-				 strokeWeight: 2
+				 strokeWeight: 4
 			 });
-		L1.setMap(map);
+			 L1.setMap(map);
+			 //
+			  L2Coord = [
+						{lat: latt + 0.00446099999999916, lng:long + 0.005675000000024966},
+						{lat: latt + 0.00446099999999916, lng:long - 0.005675000000024966}
+					];
+					 L2 = new google.maps.Polyline({
+						path: L2Coord,
+						geodesic: true,
+						strokeColor: '#FF0000',
+						strokeOpacity: 1.0,
+						strokeWeight: 4
+					});
+					L2.setMap(map);
+					//
+					 L3Coord = [
+							 {lat: latt - 0.00446099999999916, lng:long + 0.005675000000024966},
+							 {lat: latt - 0.00446099999999916, lng:long - 0.005675000000024966}
+						 ];
+						  L3 = new google.maps.Polyline({
+							 path: L3Coord,
+							 geodesic: true,
+							 strokeColor: '#FF0000',
+							 strokeOpacity: 1.0,
+							 strokeWeight: 4
+						 });
+						 L3.setMap(map);
+						 //
+						  L4Coord = [
+									{lat: latt + 0.00446099999999916, lng:long - 0.005675000000024966},
+									{lat: latt - 0.00446099999999916, lng:long - 0.005675000000024966}
+								];
+								 L4 = new google.maps.Polyline({
+									path: L4Coord,
+									geodesic: true,
+									strokeColor: '#FF0000',
+									strokeOpacity: 1.0,
+									strokeWeight: 4
+								});
+								L4.setMap(map);
 
 
 
@@ -134,7 +228,10 @@
     });
 		google.maps.event.addListener(marker, 'dragstart', function() {
 		L1.setMap(null);
-
+		L2.setMap(null);
+		L3.setMap(null);
+		L4.setMap(null);
+		console.log('dragged')
 		});
 
     }

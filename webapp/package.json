@@ -1,12 +1,12 @@
 {
   "name": "week-2-lab",
   "version": "0.0.1",
-  "scripts": {
-    "start": "node app.js"
-  },
+  "main" : "app.js",
   "dependencies": {
     "delay": "^2.0.0",
     "express": "latest",
+    "gm": "^1.23.1",
+    "opencv": "github:peterbraden/node-opencv",
     "python-shell": "^0.5.0",
     "socket.io": "^2.0.4"
   }

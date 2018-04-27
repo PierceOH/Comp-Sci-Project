@@ -4,6 +4,16 @@ var router = express.Router();
 var path = __dirname + '/views/';
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+const cv = require('opencv');
+var getPixels = require("get-pixels")
+
+getPixels("static2.png", function(err, pixels) {
+  if(err) {
+    console.log("Bad image path")
+    return
+  }
+  console.log("got pixels", pixels.shape.slice())
+})
 
 
 
@@ -72,13 +82,15 @@ io.listen(server).on('connection', function (socket) {
                        request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
                        });
                  };
-         download('https://maps.googleapis.com/maps/api/staticmap?center='+ lat + ',' + long+ '&zoom=16&size=600x640', 'static1.png', function(){
+         download('https://maps.googleapis.com/maps/api/staticmap?center='+ lat + ',' + long+ '&zoom=16&size=520x550', 'static1.png', function(){
          console.log('done1');
  });
  //'https://maps.googleapis.com/maps/api/staticmap?center=' + str(lat)+',' + str(long)+ ' &zoom=' + str(zoom)+'&size=530x640&scale=1&style=visibility:off&style=feature:road|element:geometry|color:99ff30|visibility:on&sensor=false'
- download('https://maps.googleapis.com/maps/api/staticmap?center='+ lat + ',' + long+ '&zoom=16&size=530x640&scale=1&style=visibility:off&style=feature:road|element:geometry|color:99ff30|visibility:on&sensor=false', 'static2.png', function(){
+ download('https://maps.googleapis.com/maps/api/staticmap?center='+ lat + ',' + long+ '&zoom=16&size=520x550&scale=1&style=visibility:off&style=feature:road|element:geometry|color:99ff30|visibility:on&sensor=false', 'static2.png', function(){
  console.log('done2');
  });
+//When RGB image processing only count down to pixel 520. as I have extended the request image to avoid the google logo!.
+
 
           }
 
