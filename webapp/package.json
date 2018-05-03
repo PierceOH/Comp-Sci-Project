@@ -1,11 +1,14 @@
 {
   "name": "week-2-lab",
   "version": "0.0.1",
-  "main" : "app.js",
+  "main": "app.js",
   "dependencies": {
     "delay": "^2.0.0",
     "express": "latest",
+    "get-image-pixels": "^1.0.1",
+    "get-pixels": "^3.3.0",
     "gm": "^1.23.1",
+    "jimp": "^0.2.28",
     "opencv": "github:peterbraden/node-opencv",
     "python-shell": "^0.5.0",
     "socket.io": "^2.0.4"

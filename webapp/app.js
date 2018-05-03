@@ -5,15 +5,64 @@ var path = __dirname + '/views/';
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 const cv = require('opencv');
-var getPixels = require("get-pixels")
+var Jimp = require("jimp");
 
-getPixels("static2.png", function(err, pixels) {
-  if(err) {
-    console.log("Bad image path")
-    return
-  }
-  console.log("got pixels", pixels.shape.slice())
-})
+var image_detection = []
+Jimp.read("texture1.png", function (err, image) {
+    if (err) throw err;
+    var i;
+    var j;
+    for (i = 0; i < 7; i++) {
+      for (j = 0; j < 8; j++) {
+        pixel = (image.getPixelColor(i,j));
+
+        var flag = 1;
+        for (k = 0; k < image_detection.length;k++){
+
+            if (pixel == image_detection[k]){
+              flag = 0;
+            }
+        }
+        if (flag == 1){
+          console.log("ADD TO ARRAY");
+          image_detection.push(pixel);
+        }
+      }
+    }
+
+    console.log('\x1b[32m%s\x1b[0m', 'Initialisation fully complete');
+});
+
+
+Jimp.read("texture2.png", function (err, image) {
+    if (err) throw err;
+    var i;
+    var j;
+    for (i = 0; i < 7; i++) {
+      for (j = 0; j < 3; j++) {
+        pixel = (image.getPixelColor(i,j));
+
+        var flag = 1;
+        for (k = 0; k < image_detection.length;k++){
+
+            if (pixel == image_detection[k]){
+              flag = 0;
+            }
+        }
+        if (flag == 1){
+          console.log("ADD TO ARRAY");
+          image_detection.push(pixel);
+        }
+      }
+    }
+
+
+console.log('\x1b[32m%s\x1b[0m', 'Initialisation 1 complete with the ammount of RBG values below ');
+console.log(image_detection.length);
+});
+
+
+
 
 
 
@@ -64,6 +113,22 @@ io.listen(server).on('connection', function (socket) {
        socket.on('message', function (msg) {
           if (msg == "Area") {
               console.log("Calculate area")
+
+              
+              Jimp.read("static2.png", function (err, image) {
+                  if (err) throw err;
+                  console.log((image.getPixelColor(0,0)));
+                  pixel = (image.getPixelColor(0,0));
+                  console.log(Jimp.intToRGBA(pixel));
+
+              });
+
+
+
+
+
+
+
               socket.emit('message', msg);
               console.log('sent "COMPLETE"')
 
