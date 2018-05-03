@@ -21,7 +21,7 @@
          <ul class="nav navbar-nav">
         <li><a href="/">Home</a></li>
         <li class="active"><a href="/map">Map<span class="sr-only">(current)</span></a></li>
-        <li><a href="/contact">Contact me</a></li>
+        
       </ul>
 </nav>
 </div>
@@ -44,7 +44,22 @@
 		<script src="/socket.io/socket.io.js"></script>
 
     <script type="text/javascript">
-    var map;
+		$(function(){
+				var iosocket = io.connect();
+								iosocket.on('connect', function () {
+								console.log("connected");
+							});
+					//
+					iosocket.on('message', function(message) {
+
+								 $('#results').val(message);
+					});
+					//
+					$('#confirm').click(function() {
+								iosocket.send([lat,long]);
+								});
+
+		var map;
     var marker;
 		var latt = -37.910524;
 		var long = 145.136218;
@@ -162,7 +177,7 @@
 		lat = marker.getPosition().lat();
 		long = marker.getPosition().lng();
 		latt = marker.getPosition().lat();
-
+		iosocket.send([lat,long]);
     console.log([marker.getPosition().lat(),marker.getPosition().lng()]);
     infowindow.setContent(results[0].formatted_address);
     infowindow.open(map, marker);
@@ -231,31 +246,15 @@
 		L2.setMap(null);
 		L3.setMap(null);
 		L4.setMap(null);
-		console.log('dragged')
+		console.log('dragged');
+		$('#results').val("Calculating");
 		});
 
     }
     google.maps.event.addDomListener(window, 'load', initialize);
-		function buttonclick(){
-
-				window.location.href='/confirm'
-			}
 
 
-			$(function(){
-          var iosocket = io.connect();
-            			iosocket.on('connect', function () {
-                  console.log("connected");
-       					});
-						//
-						iosocket.on('message', function(message) {
-                   console.log(message)
-            });
-						//
-			 			$('#confirm').click(function() {
-                	iosocket.send([lat,long]);
-									});
-   });
+			 });
 		</script>
 
 
@@ -265,11 +264,13 @@
     <input id="address" type="text" style="width:600px;"/><br/>
     <input type="text" id="latitude" placeholder="Latitude"/>
     <input type="text" id="longitude" placeholder="Longitude"/>
+
   </p>
 	<!-- Colored raised button -->
-	<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id = "confirm" onclick="myVar = setTimeout(buttonclick, 1500)">
-		Confirm center
-	</button>
+
+
+						 Area:
+	<input type="text" id="results" placeholder="area not calculated" align="middle"/>
 
 </div>
   </div>
