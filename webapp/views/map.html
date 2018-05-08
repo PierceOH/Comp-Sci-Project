@@ -21,7 +21,7 @@
          <ul class="nav navbar-nav">
         <li><a href="/">Home</a></li>
         <li class="active"><a href="/map">Map<span class="sr-only">(current)</span></a></li>
-        
+
       </ul>
 </nav>
 </div>
@@ -32,7 +32,7 @@
     	<title>Map</title>
     	<style>
     #myMap {
-       height: 500px;
+       height: 455px;
        width: screen.width;;
     }
     </style>
@@ -51,12 +51,13 @@
 							});
 					//
 					iosocket.on('message', function(message) {
-
 								 $('#results').val(message);
 					});
 					//
 					$('#confirm').click(function() {
-								iosocket.send([lat,long]);
+								var email = $('#email').val();
+								iosocket.send(["email",email,$('#results').val(),$('#latitude').val(),$('#longitude').val()]);
+
 								});
 
 		var map;
@@ -271,7 +272,14 @@
 
 						 Area:
 	<input type="text" id="results" placeholder="area not calculated" align="middle"/>
-
+			<P>
+			<font size="3">Put your email below, if you would like to be mailed the results of your last query</font>
+			<p>
+			<input type="text" id="email" placeholder="put your email in here:" align="middle"/>
+			<!-- Colored raised button -->
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id = "confirm">
+	Email me results
+</button>
 </div>
   </div>
 </body>

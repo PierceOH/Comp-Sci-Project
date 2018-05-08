@@ -4,10 +4,13 @@ var router = express.Router();
 var path = __dirname + '/views/';
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-const cv = require('opencv');
 var Jimp = require("jimp");
 var pixel_total = 0;
 var match_total = 0;
+var nodemailer=require('nodemailer');
+//sets up email using a gmail accounts
+var transporter=nodemailer.createTransport({ service: "Gmail",
+    auth: { user: "fit3140team18super@gmail.com", pass: "ironmaiden" } });
 
 var image_detection = []
 Jimp.read("texture1.png", function (err, image) {
@@ -125,18 +128,23 @@ console.log("listening to port 3000:");
 io.listen(server).on('connection', function (socket) {
       console.log("Connected");
        socket.on('message', function (msg) {
-          if (msg == "Area") {
-              console.log("Calculate area")
+          if (msg[0] == "email") {
+              console.log("sending email to: ", msg[1]);
+              console.log("area: ", msg[2]," latitude ",msg[3]," longitude ",msg[4]);
+              var message=" As per request: For these coordinates \n Latitude: " +  msg[3] + "\n Longitude: " +  msg[4] + "\nthe total area is: " + msg[2] + "\nHere is a static link to your map:      " +  "    "+ 'https://maps.googleapis.com/maps/api/staticmap?center=' + msg[3] + ',' + msg[4]+ '&zoom=16&size=520x520';
+              //, "Here is a static link to your map: ", "    ", 'https://maps.googleapis.com/maps/api/staticmap?center=' + msg[3] + ',' + msg[4]+ '&zoom=16&size=520x550'
+              var mailOptions= { from:'"Pierces Mail options" <FIT3140team18super@gmail.com>',
+      to:msg[1],subject:"Area calculator",
+      text:message };
+  transporter.sendMail(mailOptions,(error,info) =>
+  {
+      if (error) { return console.log(error); }
+      console.log("Message sent: %s",info.messageId);
+      return;
+  });
+  return;
 
-
-              Jimp.read("static2.png", function (err, image) {
-                  if (err) throw err;
-                  console.log((image.getPixelColor(0,0)));
-                  pixel = (image.getPixelColor(0,0));
-                  console.log(Jimp.intToRGBA(pixel));
-
-              });
-
+              console.log(message);
 
 
 
@@ -146,7 +154,7 @@ io.listen(server).on('connection', function (socket) {
 
               console.log('sent "COMPLETE"')
 
-              //https://www.npmjs.com/package/opencv  use for image detection! (RGB)
+            
 
           } else {
             data_array = msg
@@ -196,6 +204,7 @@ const delay = require('delay');
 console.log("DELAY")
 delay(1200)
     .then(() => {
+        console.log(match_total/pixel_total)
         metres = (match_total/pixel_total)*1000000
         console.log("Delay complete")
         socket.emit('message', JSON.stringify(metres));
